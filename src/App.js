@@ -1,26 +1,63 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
+import Navtabs from './components/Navtabs';
+import TodoForm from './components/TodoForm';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+
+  state = {
+    task: [{
+      taskName: "",
+      taskDescription: "",
+    }]
+  }
+
+
+  // handleSaveButton = (event) => {
+  //   event.preventDefault();
+  //   let id = undefined;
+
+  //   if (event.target.id === undefined) {
+  //     id = null
+  //   } else {
+  //     id = event.target.id
+  //   }
+  //   console.log(id)
+  // }
+
+  handleSaveButton = (event) => {
+    event.preventDefault();
+
+    const newTask = [...this.state.task ];
+    newTask[event.target.name] = event.target.value;
+    this.setState({ state: newTask })
+
+    console.log("Save", newTask)
+
+
+
+  }
+
+  handleChange = (event) => {
+    event.preventDefault();
+
+    // const name = event.target.name;
+    // const value = event.target.value;
+
+    console.log('Props')
+
+  }
+
+  render() {
+    return (
+      <div>
+        <Navtabs />
+        <TodoForm
+          handleSaveButton={this.handleSaveButton}
+          state={this.state} />
+      </div>
+    )
+  }
 }
 
 export default App;
