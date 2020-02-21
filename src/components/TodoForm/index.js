@@ -1,34 +1,51 @@
-import React from 'react';
+import React, { Component } from 'react';
+import "./style.css";
+import shortid from 'shortid';
 
-const TodoForm = (props) => {
+class TodoForm extends Component {
 
+    state = {
+        text: ""
+    };
+
+    handleChange = (event) => {
+        // this.setState({ task: event.target.value})
+        this.setState({
+            [event.target.name]: event.target.value
+        })
+    }
+
+    handleSubmit = (event) => {
+        event.preventDefault();
+        this.props.onSubmit({
+            id: shortid.generate(),
+            text: this.state.text,
+            complete: false
+        }); 
+        this.setState({
+            text: ""
+        });
+    };
+
+    render() {
         return (
+
             <div className="todoForm">
-                <form className="todoForm">
-                    <label>Task Name</label>
+                <form onSubmit={this.handleSubmit}>
                     <input
-                        value={props.state.task.taskName}
-                        onChange={props.handleChange}
-                        type="todo"
-                        className="form-control"
-                        id="exampleFormControlInput1"
+                        name="text"
+                        value={this.state.text}
+                        onChange={this.handleChange}
                         placeholder="Task Name">
                     </input>
-                   
-                    <label>Task Description</label>
-                    <textarea
-                        value={props.state.task.taskDescription}
-                        onChange={props.handleChange}
-                        type="todo"
-                        className="form-control"
-                        id="exampleFormControlInput2"
-                        placeholder="Task Description">
-                    </textarea>
+
+                <button onSubmit={this.handleSubmit} className="saveButton">Add Task</button>
                 </form>
-                <button className="saveButton" onClick={props.handleSaveButton}>SUBMIT</button>
             </div>
-    
-            )
-        }
-    
-    export default TodoForm;
+        )
+    }
+
+}
+
+
+export default TodoForm;
